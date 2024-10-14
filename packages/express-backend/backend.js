@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 
+
 const app = express()
 const port = 8000;
 
@@ -40,6 +41,11 @@ app.use(express.json())
 app.get("/",(req,res) => {
     res.send("Hello World!");
 });
+
+function randomId(){
+  //This could result in a non-unique id but Dr. Kubiak said it's fine for this assignment
+  return Math.floor((Math.random() * (10 ** 6))); //6 random digets
+}
 
 const findUserByNameAndJob = (name, job) => {
   return users["users_list"].filter(
@@ -88,8 +94,9 @@ const addUser = (user) => {
 
 app.post("/users",(req,res) => {
   const userToAdd = req.body;
+  userToAdd["id"] = randomId()
   addUser(userToAdd);
-  res.send();
+  res.status(201).send(userToAdd);
 });
 
 const deleteUserById = (id)=>{

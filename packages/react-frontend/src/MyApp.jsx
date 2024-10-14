@@ -14,9 +14,20 @@ function MyApp(){
 
     function updateList(person) {
       postUser(person)
-        .then(() => setCharacters([...characters, person]))
-        .catch((error) => {
-          console.log(error);
+        .then((res) => {
+          if(res.status == 201){
+            return res.json()
+          }else{
+            throw new Error("Creation Failed")
+          }})
+          .then((res) =>{
+            if(res){
+              console.log(res); 
+              setCharacters([...characters, res]);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
         });
     }
 
