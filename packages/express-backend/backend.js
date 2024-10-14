@@ -44,7 +44,7 @@ app.get("/",(req,res) => {
 
 function randomId(){
   //This could result in a non-unique id but Dr. Kubiak said it's fine for this assignment
-  return Math.floor((Math.random() * (10 ** 6))); //6 random digets
+  return Math.floor((Math.random() * (10 ** 6))).toString(); //6 random digets
 }
 
 const findUserByNameAndJob = (name, job) => {
@@ -110,10 +110,10 @@ const deleteUserById = (id)=>{
     
 }
 
-app.delete("/users",(req,res) => {
-  const idToDelete = req.body.id;
+app.delete("/users/:id",(req,res) => {
+  const idToDelete = req.params.id;
   if(deleteUserById(idToDelete)){
-    res.send("Deleted users")
+    res.status(204).send()
   }else
     res.status(404).send("Resouce not found")
 });
